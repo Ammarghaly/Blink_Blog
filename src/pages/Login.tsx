@@ -25,7 +25,12 @@ export default function Login() {
       toast.success("Logged in successfully");
       navigate("/");
     } catch (err: any) {
-      toast.error(`"Login failed" ${err.response?.data}`);
+      const errorData = err.response?.data;
+      const errorMessage =
+        errorData?.message ||
+        errorData?.error ||
+        (typeof errorData === "string" ? errorData : "An unexpected error occurred");
+      toast.error(errorMessage);
     }
   };
 
@@ -48,7 +53,7 @@ export default function Login() {
                 Email
               </label>
               <input
-                value={"aa@aa.com"}
+                defaultValue={"aa@aa.com"}
                 {...register("email", {
                   required: "Email is required",
                   pattern: {
