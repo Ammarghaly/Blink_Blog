@@ -3,6 +3,7 @@ import { useAuth } from "../hooks/useAuth";
 import { toast } from "react-hot-toast";
 import imageLogin from "../assets/Login.png";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 type LoginForm = {
   email: string;
@@ -24,13 +25,12 @@ export default function Login() {
       await login(data.email, data.password);
       toast.success("Logged in successfully");
       navigate("/");
-    } catch (err: any) {
-      const errorData = err.response?.data;
-      const errorMessage =
-        errorData?.message ||
-        errorData?.error ||
-        (typeof errorData === "string" ? errorData : "An unexpected error occurred");
-      toast.error(errorMessage);
+    } catch (err: unknown) {
+      if (axios.isAxiosError(err)) {
+        const errorData = err.response?.data;
+        const errorMessage = errorData?.message || errorData?.error;
+        toast.error(errorMessage);
+      }
     }
   };
 
@@ -76,6 +76,7 @@ export default function Login() {
                 Password
               </label>
               <input
+                defaultValue={"123456789"}
                 type="password"
                 {...register("password", {
                   required: "Password is required",
@@ -104,7 +105,10 @@ export default function Login() {
 
             <p className="text-center text-gray-600 text-sm mt-8">
               New to the vortex?
-              <span className="text-white ml-1.5 cursor-pointer underline underline-offset-4">
+              <span
+                className="text-white ml-1.5 cursor-pointer underline underline-offset-4"
+                onClick={() => navigate("/register")}
+              >
                 Create Account
               </span>
             </p>
@@ -114,3 +118,5 @@ export default function Login() {
     </div>
   );
 }
+
+

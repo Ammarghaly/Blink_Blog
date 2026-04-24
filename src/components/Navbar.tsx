@@ -6,7 +6,7 @@ import { useAuth } from "../hooks/useAuth";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const {user}=useAuth()
+  const { user } = useAuth();
   const isLoggedIn = !!user;
 
   return (
@@ -29,12 +29,18 @@ export default function Navbar() {
         <div className="hidden md:flex items-center gap-4">
           {isLoggedIn ? (
             <div className="flex items-center gap-2">
-              <img
-                src={user?.image || "https://i.pravatar.cc/40"}
-                className="w-8 h-8 rounded-full"
-                alt="User"
-              />
-              <span>{user?.name}</span>
+               <span className="font-medium text-sm">{user?.name}</span>
+              {user?.image ? (
+                <img
+                  src={user.image}
+                  className="w-10 h-10 rounded-full object-cover border-2 border-primary"
+                  alt={user.name}
+                />
+              ) : (
+                <div className="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center border-2 border-gray-600">
+                  <span className="text-xs">{user?.name?.charAt(0)}</span>
+                </div>
+              )}
             </div>
           ) : (
             <>

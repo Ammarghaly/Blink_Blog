@@ -1,7 +1,15 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "https://backend-little-water-7369.fly.dev/api",
+  baseURL: "https://blink-back-two.vercel.app/api",
+});
+
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem("token");
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
 });
 
 export default api;
