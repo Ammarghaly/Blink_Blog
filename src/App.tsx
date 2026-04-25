@@ -1,11 +1,12 @@
 import Home from "./pages/Home";
-import Posts from "./pages/Posts";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Portfolio from "./pages/Portfolio";
 import { Route, Routes, Navigate } from "react-router-dom";
 import MainLayout from "./layout/MainLayout";
 import { useAuth } from "./hooks/useAuth"; 
+import { AuthModalProvider } from "./context/AuthModalContext";
+import AuthModal from "./components/AuthModal";
 
 export default function App() {
   const { user, isLoading } = useAuth();
@@ -18,20 +19,24 @@ export default function App() {
     );
   }
   return (
-    <Routes>
-      <Route element={<MainLayout />}>
-        <Route path="/" element={<Home />} />
-        <Route path="/posts" element={<Posts />} />
-        <Route path="/portfolio" element={<Portfolio />} />
-      </Route>
+    <AuthModalProvider>
+      <Routes>
+        <Route element={<MainLayout />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/portfolio" element={<Portfolio />} />
+        </Route>
 
-      <Route path="/login" element={!user ? <Login /> : <Navigate to="/" />} />
-      <Route
-        path="/register"
-        element={!user ? <Register /> : <Navigate to="/" />}
-
-      />
-      <Route path="*" element={<Navigate to="/" />} />
-    </Routes>
+        <Route
+          path="/login"
+          element={!user ? <Login /> : <Navigate to="/" />}
+        />
+        <Route
+          path="/register"
+          element={!user ? <Register /> : <Navigate to="/" />}
+        />
+        <Route path="*" element={<Navigate to="/" />} />
+      </Routes>
+      <AuthModal />
+    </AuthModalProvider>
   );
 }

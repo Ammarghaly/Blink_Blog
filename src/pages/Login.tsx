@@ -41,7 +41,7 @@ export default function Login() {
       </div>
 
       <div className="flex-1 flex items-center justify-center p-6">
-        <div className="w-full max-w-md bg-[#0a0a0a] p-10 rounded-3xl border border-gray-800 shadow-[0_0_50px_rgba(0,0,0,0.5)]">
+        <div className="w-full max-w-md bg-[#0a0a0a] p-10 rounded-3xl border border-gray-800 shadow-[0_0_17px_#8b5cf6]">
           <h2 className="text-2xl font-bold mb-3 text-center">Welcome Back</h2>
           <p className="text-gray-500 mb-8">
             Fill in your credentials to access your experience
@@ -106,7 +106,7 @@ export default function Login() {
             <p className="text-center text-gray-600 text-sm mt-8">
               New to the vortex?
               <span
-                className="text-white ml-1.5 cursor-pointer underline underline-offset-4"
+                className="text-white ml-1.5 cursor-pointer hover:text-primary underline underline-offset-4"
                 onClick={() => navigate("/register")}
               >
                 Create Account

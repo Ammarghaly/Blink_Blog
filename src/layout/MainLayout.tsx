@@ -4,8 +4,10 @@ import Navbar from "../components/Navbar";
 export default function MainLayout() {
   return (
     <>
-     <Navbar/> 
-     <Outlet/>
+      <Navbar />
+      <div className="w-full flex flex-col items-center justify-center">
+        {<Outlet />}
+      </div>
     </>
-  )
+  );
 }

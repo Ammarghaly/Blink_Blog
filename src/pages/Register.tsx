@@ -48,7 +48,7 @@ export default function Login() {
   };
 
   return (
-    <div className="flex h-screen w-full bg-[#050505] text-white overflow-hidden">
+    <div className="flex h-screen w-full bg-[#050505] text-white overflow-hidden ">
       <div className="image hidden md:block w-[45%] h-full">
         <img
           src={imageRegister}
@@ -57,8 +57,8 @@ export default function Login() {
         />
       </div>
 
-      <div className="flex-1 flex items-center justify-center p-3">
-        <div className="w-full max-w-md bg-[#0a0a0a] p-7 rounded-3xl border border-gray-800 shadow-2xl overflow-y-auto max-h-[95vh]">
+      <div className="flex-1 flex items-center justify-center p-3 ">
+        <div className="w-full max-w-md bg-[#0a0a0a] shadow-[0_0_17px_#8b5cf6] p-7 rounded-3xl border border-gray-800 shadow-2xl overflow-y-auto max-h-[95vh]">
           <h2 className="text-xl font-bold mb-0.5 text-center">
             Create Account
           </h2>
@@ -66,9 +66,9 @@ export default function Login() {
             Join the next evolution of digital social spaces.
           </p>
 
-          <form className="space-y-3" onSubmit={handleSubmit(onSubmit)}>
+          <form className="space-y-3 " onSubmit={handleSubmit(onSubmit)}>
             <div>
-              <label className="block text-[10px] text-gray-500 uppercase mb-0.5 font-bold">
+              <label className="block text-[10px] text-gray-500 uppercase mb-0.5 font-bold ">
                 Full Name
               </label>
               <input
@@ -181,7 +181,7 @@ export default function Login() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full bg-purple-600 py-3 rounded-xl font-bold hover:bg-purple-700 transition-all text-sm mt-2 disabled:opacity-50"
+              className="w-full bg-purple-600 py-3 rounded-xl cursor-pointer font-bold hover:bg-purple-700 transition-all text-sm mt-2 disabled:opacity-50"
             >
               {isSubmitting ? "Creating..." : "CREATE ACCOUNT"}
             </button>
@@ -189,7 +189,7 @@ export default function Login() {
             <p className="text-center text-gray-600 text-xs mt-4">
               Already have an account?
               <span
-                className="text-white ml-1.5 cursor-pointer underline underline-offset-4"
+                className="text-white ml-1.5 cursor-pointer underline hover:text-primary underline-offset-4"
                 onClick={() => navigate("/login")}
               >
                 Sign In
