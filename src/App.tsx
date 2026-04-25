@@ -19,7 +19,7 @@ export default function App() {
   }
   return (
     <Routes>
-      <Route element={user ? <MainLayout /> : <Navigate to="/login" />}>
+      <Route element={<MainLayout />}>
         <Route path="/" element={<Home />} />
         <Route path="/posts" element={<Posts />} />
         <Route path="/portfolio" element={<Portfolio />} />
