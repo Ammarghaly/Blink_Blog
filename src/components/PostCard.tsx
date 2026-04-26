@@ -13,11 +13,7 @@ export default function Post({ post }: { post: Post }) {
   const { toggleLikeLocal, addCommentLocal } = usePostStore();
   const { user } = useAuth();
   const { open } = useAuthModal();
-
   const isLiked = user ? post.likes.includes(user._id) : false;
-
-  console.log(post.likes);
-  console.log(user?._id);
 
   const handleLike = async () => {
     if (!user) {

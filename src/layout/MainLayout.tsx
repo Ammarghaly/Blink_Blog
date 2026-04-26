@@ -5,9 +5,7 @@ export default function MainLayout() {
   return (
     <>
       <Navbar />
-      <div className="w-full flex flex-col items-center justify-center">
-        {<Outlet />}
-      </div>
+        <Outlet />
     </>
   );
 }
