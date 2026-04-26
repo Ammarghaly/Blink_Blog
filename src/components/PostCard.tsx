@@ -1,4 +1,4 @@
-import { useState } from "react";
+import {  useState } from "react";
 import { type Post } from "../types";
 import { Heart, MessageCircle } from "lucide-react";
 import { usePostStore } from "../store/usePostStore";
@@ -13,7 +13,12 @@ export default function Post({ post }: { post: Post }) {
   const { toggleLikeLocal, addCommentLocal } = usePostStore();
   const { user } = useAuth();
   const { open } = useAuthModal();
+
   const isLiked = user ? post.likes.includes(user._id) : false;
+
+  console.log(post.likes);
+  console.log(user?._id);
+
   const handleLike = async () => {
     if (!user) {
       open();
@@ -28,6 +33,7 @@ export default function Post({ post }: { post: Post }) {
       toggleLikeLocal(post._id, userId);
     }
   };
+
   const handleAddComment = async () => {
     if (!user) {
       open();

@@ -58,10 +58,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const login = async (email: string, password: string) => {
     const data = await loginRequest(email, password);
-   const userData = data.user ? data.user : data;
-   localStorage.setItem("token", data.token);
-   localStorage.setItem("user", JSON.stringify(userData));
-   setUser(userData);
+    const userData = data.user ? data.user : data;
+    const normalizedUser = { ...userData, _id: userData._id || userData.id };
+    localStorage.setItem("token", data.token);
+    localStorage.setItem("user", JSON.stringify(normalizedUser));
+    setUser(normalizedUser);
   };
 
   const registration = async (formData: FormData) => {
@@ -69,9 +70,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <AuthContext
-      value={{ user, login, logout, isLoading, registration }}
-    >
+    <AuthContext value={{ user, login, logout, isLoading, registration }}>
       {children}
     </AuthContext>
   );
