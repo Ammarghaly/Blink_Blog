@@ -4,7 +4,7 @@ import Register from "./pages/Register";
 import Portfolio from "./pages/Portfolio";
 import { Route, Routes, Navigate } from "react-router-dom";
 import MainLayout from "./layout/MainLayout";
-import { useAuth } from "./hooks/useAuth"; 
+import { useAuth } from "./hooks/useAuth";
 import { AuthModalProvider } from "./context/AuthModalContext";
 import AuthModal from "./components/AuthModal";
 
@@ -23,7 +23,10 @@ export default function App() {
       <Routes>
         <Route element={<MainLayout />}>
           <Route path="/" element={<Home />} />
-          <Route path="/portfolio" element={<Portfolio />} />
+          <Route
+            path="/portfolio"
+            element={!user ? <Navigate to="/" /> : <Portfolio />}
+          />
         </Route>
 
         <Route

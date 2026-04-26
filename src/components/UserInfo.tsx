@@ -1,36 +1,45 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../hooks/useAuth";
-import { getPostsById } from "../api/posts";
+import { getPostsUserById } from "../api/posts";
+import type { Post } from "../types";
 import PostCard from "./PostCard";
 
 export default function UserInfo() {
+
   const { user } = useAuth();
-  const [userPosts, setUserPosts] = useState([]);
+  const [userPosts, setUserPosts] = useState<Post[]>([]);
 
 
-  useEffect(()=>{
-    const getData= async ()=>{
-        const res = await getPostsById(user?._id)
-         setUserPosts(res.data)
-    }
-    getData()
-  },[])
+  useEffect(() => {
+    const getData = async () => {
+      const res = await getPostsUserById(user?._id);
+      setUserPosts(res);
+    };
+    getData();
+  }, [user?._id]);
 
 
   return (
-    <>
-      <div className="flex items-center w-100 mt-3 ml-3 gap-5 p-3 rounded-2xl bg-[#0a0a0a]  shadow-[0_0px_20px_#291f3f]">
+    <div className="relative">
+      <div className="sticky top-16 z-40 flex items-center w-[95%] mt-3 mx-auto gap-5 p-5 rounded-2xl bg-[#0a0a0a]/90 backdrop-blur-md shadow-[0_0px_20px_#291f3f]">
         <img
           src={user?.image}
           alt="User Image"
-          className="w-30 h-30 rounded-full border-2 border-primary"
+          className="w-24 h-24 object-cover rounded-full border-2 border-primary"
         />
-        <div>
-          <h2 className="font-bold">{user?.email}</h2>
-          <p className="font-normal text-stone-300">{user?.name}</p>
+        <div className="text-white">
+          <h2 className="font-bold text-lg">Email: {user?.email}</h2>
+          <p className="text-stone-300">Name: {user?.name}</p>
+          <p className="text-stone-400 text-sm">Posts: {userPosts.length}</p>
         </div>
       </div>
-      {userPosts.map((p)=>(<PostCard post={p}/>))}
-    </>
+      <div className="mt-8 px-3">
+        {userPosts?.length > 0 ? (
+          userPosts.map((p) => <PostCard key={p._id} post={p} />)
+        ) : (
+          <p className="text-center text-gray-500">No posts found...</p>
+        )}
+      </div>
+    </div>
   );
 }

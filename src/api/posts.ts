@@ -1,5 +1,6 @@
 import api from "./axios";
 
+
 export const getPosts = async () => {
   const res = await api.get("/posts");
   return res.data.posts;
@@ -18,7 +19,7 @@ export const addCommentRequest = (postId: string, text: string) => {
 //   return res.data.posts;
 // };
 
-export const getPostById = async (id:string | undefined) => {
+export const getPostsUserById = async (id: string | undefined) => {
   const res = await api.get(`/posts/user/${id}`);
-  return res.data.posts;
+  return res.data.post;
 };
