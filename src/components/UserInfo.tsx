@@ -1,22 +1,19 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useAuth } from "../hooks/useAuth";
 import { getPostsUserById } from "../api/posts";
-import type { Post } from "../types";
 import PostCard from "./PostCard";
+import { usePostStore } from "../store/usePostStore";
 
 export default function UserInfo() {
-
   const { user } = useAuth();
-  const [userPosts, setUserPosts] = useState<Post[]>([]);
-
-
+  const { userPosts, setUserPosts } = usePostStore();
   useEffect(() => {
     const getData = async () => {
       const res = await getPostsUserById(user?._id);
       setUserPosts(res);
     };
     getData();
-  }, [user?._id]);
+  }, [user?._id, setUserPosts]);
 
 
   return (

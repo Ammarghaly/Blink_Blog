@@ -3,14 +3,20 @@ import type { Post, Comment } from "../types/index";
 
 type PostStore = {
   posts: Post[];
+  userPosts: Post[];
   setPosts: (posts: Post[]) => void;
+  setUserPosts: (posts: Post[]) => void;
   toggleLikeLocal: (postId: string, userId: string) => void;
   addCommentLocal: (postId: string, comment: Comment) => void;
+  deletePostLocal: (postId: string) => void;
+  deletePostUserLocal: (postId: string) => void;
 };
 
 export const usePostStore = create<PostStore>((set) => ({
   posts: [],
+  userPosts: [],
   setPosts: (posts) => set({ posts }),
+  setUserPosts: (userPosts) => set({ userPosts }),
   toggleLikeLocal: (postId, userId) =>
     set((state) => ({
       posts: state.posts.map((post) => {
@@ -35,4 +41,14 @@ export const usePostStore = create<PostStore>((set) => ({
           : post,
       ),
     })),
+  deletePostLocal: (postId) => {
+    set((state) => ({
+      posts: state.posts.filter((p) => p._id !== postId),
+    }));
+  },
+  deletePostUserLocal: (postId) => {
+    set((state) => ({
+      userPosts: state.userPosts.filter((p) => p._id !== postId),
+    }));
+  },
 }));

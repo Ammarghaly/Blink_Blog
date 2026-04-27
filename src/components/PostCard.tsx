@@ -1,16 +1,17 @@
-import {  useState } from "react";
+import { useState } from "react";
 import { type Post } from "../types";
-import { Heart, MessageCircle } from "lucide-react";
+import { Heart, MessageCircle, Share2,Pencil , Trash2 } from "lucide-react";
 import { usePostStore } from "../store/usePostStore";
-import { toggleLikeRequest, addCommentRequest } from "../api/posts";
+import { toggleLikeRequest, addCommentRequest, deletePostRequest } from "../api/posts";
 import { useAuth } from "../hooks/useAuth";
 import { useAuthModal } from "../hooks/useAuthModal";
 import { timeAgo } from "../utils/timeAgo";
+import toast from "react-hot-toast";
 
-export default function Post({ post }: { post: Post }) {
+export default function PostCard({ post }: { post: Post }) {
   const [comment, setComment] = useState("");
-
-  const { toggleLikeLocal, addCommentLocal } = usePostStore();
+  const [isExpanded, setIsExpanded] = useState(false);
+  const { toggleLikeLocal, addCommentLocal,deletePostUserLocal, deletePostLocal } = usePostStore();
   const { user } = useAuth();
   const { open } = useAuthModal();
   const isLiked = user ? post.likes.includes(user._id) : false;
@@ -20,7 +21,6 @@ export default function Post({ post }: { post: Post }) {
       open();
       return;
     }
-
     const userId = user._id;
     toggleLikeLocal(post._id, userId);
     try {
@@ -30,28 +30,58 @@ export default function Post({ post }: { post: Post }) {
     }
   };
 
-  const handleAddComment = async () => {
-    if (!user) {
-      open();
-      return;
-    }
-
-    if (!comment.trim()) return;
-
-    const tempComment = {
-      _id: Date.now().toString(),
-      text: comment,
-      user,
-      createdAt: new Date().toISOString(),
-    };
-    addCommentLocal(post._id, tempComment);
-    setComment("");
-
+  const copyLinkPost = async (id: string) => {
+    const postUrl = `${window.location.href}posts/${id}`;
     try {
-      await addCommentRequest(post._id, comment);
-    } catch (error) {
-      console.log(error);
+      await navigator.clipboard.writeText(postUrl);
+      toast.success("Link copied to clipboard!");
+    } catch {
+      toast.error("Failed to copy");
     }
+  };
+  const words = post.content.split(" ");
+  const isLongText = words.length > 25;
+  const displayedContent = isExpanded
+    ? post.content
+    : words.slice(0, 25).join(" ") + (isLongText ? "..." : "");
+
+ const handleAddComment = async () => {
+   if (!user) {
+     open();
+     return;
+   }
+   if (!comment.trim()) return;
+   const tempComment = {
+     _id: Date.now().toString(),
+     text: comment,
+     user,
+     createdAt: new Date().toISOString(),
+   };
+   addCommentLocal(post._id, tempComment);
+   setComment("");
+   try {
+     await addCommentRequest(post._id, comment);
+     toast.success("Comment added ");
+   } catch {
+     toast.error("Failed to add comment");
+   }
+ };
+
+  const handleDelete = async (postId: string) => {
+    const previousPosts = usePostStore.getState().posts; 
+    deletePostLocal(postId);
+    deletePostUserLocal(postId);
+    try {
+      await deletePostRequest(postId);
+      toast.success("Deleted successfully");
+    } catch  {
+      usePostStore.setState({ posts: previousPosts });
+      toast.error("Delete failed, restored");
+    }
+  };
+  
+  const handleEdit = (id: string) => {
+     console.log(id);
   };
 
   return (
@@ -72,20 +102,50 @@ export default function Post({ post }: { post: Post }) {
         space-y-4
       "
     >
-      <div className="flex items-center gap-3">
-        <img
-          src={post.author?.image}
-          className="w-10 h-10 rounded-full object-cover"
-          alt="user"
-        />
-        <div>
-          <p className="text-sm font-semibold">{post.author?.name}</p>
-          <p className="text-xs text-gray-500">{timeAgo(post.createdAt)}</p>
+      <div className="flex items-center  justify-between">
+        <div className="flex gap-3">
+          <img
+            src={post.author?.image}
+            className="w-10 h-10 rounded-full object-cover"
+            alt="user"
+          />
+          <div>
+            <p className="text-sm font-semibold">{post.author?.name}</p>
+            <p className="text-xs text-gray-500">{timeAgo(post.createdAt)}</p>
+          </div>
         </div>
+        {post.author?._id === user?._id ? (
+          <div className="flex">
+            <div
+              onClick={() => handleEdit(post._id)}
+              className="text-gray-400 hover:text-blue-500 cursor-pointer transition   p-2 rounded-full hover:bg-blue-500/10"
+            >
+              <Pencil size={18} />
+            </div>
+            <div
+              onClick={() => handleDelete(post._id)}
+              className="text-gray-400 hover:text-red-500 cursor-pointer transition p-2 rounded-full hover:bg-red-500/10"
+            >
+              <Trash2 size={20} />
+            </div>
+          </div>
+        ) : (
+          ""
+        )}
       </div>
-
-      <h3 className="font-bold">{post.title}</h3>
-      <p className="text-sm text-gray-300 leading-relaxed">{post.content}</p>
+      <hr className=" mx-auto h-[1.5px] border-0 bg-gradient-to-r from-transparent via-[var(--color-primary)] to-transparent" />
+      <h2 className="font-bold">{post.title}</h2>
+      <p className="text-sm text-gray-300 leading-relaxed">
+        {displayedContent}
+      </p>
+      {isLongText && (
+        <button
+          onClick={() => setIsExpanded(!isExpanded)}
+          className="text-[var(--color-secondary)] hover:underline text-sm w-full cursor-pointer"
+        >
+          {isExpanded ? "Show less" : "Show more"}
+        </button>
+      )}
       {post.image && (
         <img
           src={post.image}
@@ -106,6 +166,12 @@ export default function Post({ post }: { post: Post }) {
         <div className="flex items-center gap-1">
           <MessageCircle size={18} />
           <span>{post.comments.length}</span>
+        </div>
+        <div
+          className="flex items-center gap-1 cursor-pointer"
+          onClick={() => copyLinkPost(post._id)}
+        >
+          <Share2 size={18} />
         </div>
       </div>
       <div className="space-y-3 pt-3 border-t border-gray-800">

@@ -7,6 +7,9 @@ import MainLayout from "./layout/MainLayout";
 import { useAuth } from "./hooks/useAuth";
 import { AuthModalProvider } from "./context/AuthModalContext";
 import AuthModal from "./components/AuthModal";
+import Post from "./pages/Post";
+import PageNotFound from "./pages/PageNotFound";
+import AddPost from "./pages/AddPost";
 
 export default function App() {
   const { user, isLoading } = useAuth();
@@ -23,6 +26,11 @@ export default function App() {
       <Routes>
         <Route element={<MainLayout />}>
           <Route path="/" element={<Home />} />
+          <Route path="/posts/:id" element={<Post />} />
+          <Route
+            path="/addPost"
+            element={user ? <AddPost /> : <Navigate to="/" />}
+          />
           <Route
             path="/portfolio"
             element={!user ? <Navigate to="/" /> : <Portfolio />}
@@ -37,7 +45,7 @@ export default function App() {
           path="/register"
           element={!user ? <Register /> : <Navigate to="/" />}
         />
-        <Route path="*" element={<Navigate to="/" />} />
+        <Route path="*" element={<PageNotFound />} />
       </Routes>
       <AuthModal />
     </AuthModalProvider>
