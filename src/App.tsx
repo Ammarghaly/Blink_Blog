@@ -10,19 +10,24 @@ import AuthModal from "./components/AuthModal";
 import Post from "./pages/Post";
 import PageNotFound from "./pages/PageNotFound";
 import FormPost from "./pages/FormPost";
+import LoadingSpinner from "./components/LoadingSpinner";
+import { useLoading } from "./hooks/useLoading";
+import { useEffect } from "react";
 
 export default function App() {
-  const { user, isLoading } = useAuth();
+  const { user, isLoading: isAuthLoading } = useAuth();
+  const { setIsLoading } = useLoading();
 
-  if (isLoading && !user) {
-    return (
-      <div className="h-screen w-full flex items-center justify-center bg-[#050505] text-white">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-purple-500"></div>
-      </div>
-    );
+  useEffect(() => {
+    setIsLoading(isAuthLoading && !user);
+  }, [isAuthLoading, user, setIsLoading]);
+
+  if (isAuthLoading && !user) {
+    return <LoadingSpinner />;
   }
   return (
     <AuthModalProvider>
+      <LoadingSpinner />
       <Routes>
         <Route element={<MainLayout />}>
           <Route path="/" element={<Home />} />

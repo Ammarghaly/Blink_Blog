@@ -3,14 +3,21 @@ import { useAuth } from "../hooks/useAuth";
 import { getPostsUserById } from "../api/posts";
 import PostCard from "./PostCard";
 import { usePostStore } from "../store/usePostStore";
+import { useLoading } from "../hooks/useLoading";
 
 export default function UserInfo() {
   const { user } = useAuth();
   const { userPosts, setUserPosts } = usePostStore();
+  const { setIsLoading } = useLoading();
   useEffect(() => {
     const getData = async () => {
-      const res = await getPostsUserById(user?._id);
-      setUserPosts(res);
+      setIsLoading(true);
+      try {
+        const res = await getPostsUserById(user?._id);
+        setUserPosts(res);
+      } finally {
+        setIsLoading(false);
+      }
     };
     getData();
   }, [user?._id, setUserPosts]);

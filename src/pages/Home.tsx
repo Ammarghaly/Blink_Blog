@@ -6,13 +6,16 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
+import { useLoading } from "../hooks/useLoading";
 
 export default function Home() {
   const { posts, setPosts } = usePostStore();
-  const { user }=useAuth();
+  const { user } = useAuth();
+  const { setIsLoading } = useLoading();
 
   useEffect(() => {
     const fetchPosts = async () => {
+      setIsLoading(true);
       try {
         const data = await getPosts();
         setPosts(data);
@@ -22,6 +25,8 @@ export default function Home() {
           const errorMessage = errorData?.message || errorData?.error;
           toast.error(errorMessage);
         }
+      } finally {
+        setIsLoading(false);
       }
     };
 

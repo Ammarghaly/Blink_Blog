@@ -9,6 +9,7 @@ import { useNavigate, useParams, useLocation } from "react-router-dom";
 import toast from "react-hot-toast";
 import { Image } from "lucide-react";
 import type { Post } from "../types";
+import { useLoading } from "../hooks/useLoading";
 
 interface CreatePostInput extends Omit<Post, "image"> {
   image: FileList;
@@ -22,6 +23,8 @@ export default function FormPost() {
     reset,
     formState: { errors, isSubmitting },
   } = useForm<CreatePostInput>();
+
+  const { setIsLoading } = useLoading();
 
   const [preview, setPreview] = useState<string | null>(null);
   const navigate = useNavigate();
@@ -43,19 +46,28 @@ export default function FormPost() {
   }, [imageFile]);
 
   useEffect(() => {
+    setIsLoading(isSubmitting);
+  }, [isSubmitting, setIsLoading]);
+
+  useEffect(() => {
     if (isEditMode && id) {
       const fetchPost = async () => {
-        const post = await getPostById(id);
-        reset({
-          title: post.title,
-          content: post.content,
-        });
-        setPreview(post.image);
+        setIsLoading(true);
+        try {
+          const post = await getPostById(id);
+          reset({
+            title: post.title,
+            content: post.content,
+          });
+          setPreview(post.image);
+        } finally {
+          setIsLoading(false);
+        }
       };
 
       fetchPost();
     }
-  }, [id, isEditMode, reset]);
+  }, [id, isEditMode, reset, setIsLoading]);
 
   const onSubmit = async (data: CreatePostInput) => {
     try {
