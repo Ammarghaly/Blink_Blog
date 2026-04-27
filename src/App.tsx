@@ -32,7 +32,7 @@ export default function App() {
             element={user ? <FormPost /> : <Navigate to="/" />}
           />
           <Route
-            path="/updatePost"
+            path="/edit/:id"
             element={user ? <FormPost /> : <Navigate to="/" />}
           />
           <Route

@@ -7,6 +7,7 @@ import { useAuth } from "../hooks/useAuth";
 import { useAuthModal } from "../hooks/useAuthModal";
 import { timeAgo } from "../utils/timeAgo";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 export default function PostCard({ post }: { post: Post }) {
   const [comment, setComment] = useState("");
@@ -14,6 +15,7 @@ export default function PostCard({ post }: { post: Post }) {
   const { toggleLikeLocal, addCommentLocal, deletePostLocal } = usePostStore();
   const { user } = useAuth();
   const { open } = useAuthModal();
+  const navigate=useNavigate()
   const isLiked = user ? post.likes.includes(user._id) : false;
 
   const handleLike = async () => {
@@ -80,7 +82,7 @@ export default function PostCard({ post }: { post: Post }) {
   };
   
   const handleEdit = (id: string) => {
-     console.log(id);
+   navigate(`/edit/${id}`)
   };
 
   return (

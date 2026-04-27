@@ -24,15 +24,24 @@ export const getPostsUserById = async (id: string | undefined) => {
 };
 
 export const createPostRequest = async (data: FormData) => {
-    const res = api.post("/posts", data, {
+  const res = api.post("/posts", data, {
     headers: {
       "Content-Type": "multipart/form-data",
     },
   });
-  return res
+  return res;
 };
 
 export const deletePostRequest = async (id: string) => {
   const res = api.delete(`/posts/${id}`);
   return res;
+};
+
+export const updatePostRequest = async (id: string, formData: FormData) => {
+  const res = await api.patch(`/posts/${id}`, formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+  return res.data;
 };

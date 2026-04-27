@@ -24,7 +24,7 @@ export default function Post() {
       setLoading(false);
     };
     fetchPost();
-  }, [id]);
+  }, [id, setPost]);
 
   if (loading) return <p>Loading...</p>;
   if (!post) return <p className="mx-auto w-fit text-red-500 text-2xl pt-14">Post not found</p>;
