@@ -42,10 +42,10 @@ export default function PostCard({ post }: { post: Post }) {
     }
   };
   const words = post.content.split(" ");
-  const isLongText = words.length > 25;
+  const isLongText = words.length > 20;
   const displayedContent = isExpanded
     ? post.content
-    : words.slice(0, 25).join(" ") + (isLongText ? "..." : "");
+    : words.slice(0, 20).join(" ") + (isLongText ? "..." : "");
 
  const handleAddComment = async () => {
    if (!user) {
@@ -119,7 +119,7 @@ export default function PostCard({ post }: { post: Post }) {
           <div className="flex">
             <div
               onClick={() => handleEdit(post._id)}
-              className="text-gray-400 hover:text-blue-500 cursor-pointer transition   p-2 rounded-full hover:bg-blue-500/10"
+              className="text-gray-400 hover:text-blue-500 cursor-pointer transition p-2 rounded-full hover:bg-blue-500/10"
             >
               <Pencil size={18} />
             </div>
@@ -136,7 +136,7 @@ export default function PostCard({ post }: { post: Post }) {
       </div>
       <hr className=" mx-auto h-[1.5px] border-0 bg-gradient-to-r from-transparent via-[var(--color-primary)] to-transparent" />
       <h2 className="font-bold">{post.title}</h2>
-      <p className="text-sm text-gray-300 leading-relaxed">
+      <p className="text-sm text-gray-300 leading-relaxed break-words overflow-hidden">
         {displayedContent}
       </p>
       {isLongText && (
