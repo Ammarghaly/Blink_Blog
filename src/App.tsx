@@ -9,7 +9,7 @@ import { AuthModalProvider } from "./context/AuthModalContext";
 import AuthModal from "./components/AuthModal";
 import Post from "./pages/Post";
 import PageNotFound from "./pages/PageNotFound";
-import AddPost from "./pages/AddPost";
+import FormPost from "./pages/FormPost";
 
 export default function App() {
   const { user, isLoading } = useAuth();
@@ -29,7 +29,11 @@ export default function App() {
           <Route path="/posts/:id" element={<Post />} />
           <Route
             path="/addPost"
-            element={user ? <AddPost /> : <Navigate to="/" />}
+            element={user ? <FormPost /> : <Navigate to="/" />}
+          />
+          <Route
+            path="/updatePost"
+            element={user ? <FormPost /> : <Navigate to="/" />}
           />
           <Route
             path="/portfolio"

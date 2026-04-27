@@ -3,52 +3,57 @@ import type { Post, Comment } from "../types/index";
 
 type PostStore = {
   posts: Post[];
+  post: Post | null;
   userPosts: Post[];
+  setPost: (post: Post) => void;
   setPosts: (posts: Post[]) => void;
   setUserPosts: (posts: Post[]) => void;
   toggleLikeLocal: (postId: string, userId: string) => void;
   addCommentLocal: (postId: string, comment: Comment) => void;
   deletePostLocal: (postId: string) => void;
-  deletePostUserLocal: (postId: string) => void;
 };
 
 export const usePostStore = create<PostStore>((set) => ({
   posts: [],
   userPosts: [],
+  post: null,
+  setPost: (post) => set({ post }),
   setPosts: (posts) => set({ posts }),
   setUserPosts: (userPosts) => set({ userPosts }),
   toggleLikeLocal: (postId, userId) =>
-    set((state) => ({
-      posts: state.posts.map((post) => {
-        if (post._id !== postId) return post;
-        const isLiked = post.likes.includes(userId);
+    set((state) => {
+      const update = (p: Post) => {
+        if (p._id !== postId) return p;
+        const isLiked = p.likes.includes(userId);
         return {
-          ...post,
+          ...p,
           likes: isLiked
-            ? post.likes.filter((id) => id !== userId)
-            : [...post.likes, userId],
+            ? p.likes.filter((id) => id !== userId)
+            : [...p.likes, userId],
         };
-      }),
-    })),
+      };
+      return {
+        posts: state.posts.map(update),
+        userPosts: state.userPosts.map(update),
+      };
+    }),
   addCommentLocal: (postId, comment) =>
-    set((state) => ({
-      posts: state.posts.map((post) =>
-        post._id === postId
-          ? {
-              ...post,
-              comments: [...post.comments, comment],
-            }
-          : post,
-      ),
-    })),
+    set((state) => {
+      const update = (p: Post) => {
+        if (p._id !== postId) return p;
+        return { ...p, comments: [...p.comments, comment] };
+      };
+      return {
+        posts: state.posts.map(update),
+        userPosts: state.userPosts.map(update),
+        post: state.post ? update(state.post) : null,
+      };
+    }),
   deletePostLocal: (postId) => {
     set((state) => ({
       posts: state.posts.filter((p) => p._id !== postId),
-    }));
-  },
-  deletePostUserLocal: (postId) => {
-    set((state) => ({
       userPosts: state.userPosts.filter((p) => p._id !== postId),
+      post: state.post?._id === postId ? null : state.post,
     }));
   },
 }));

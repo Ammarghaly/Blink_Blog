@@ -10,7 +10,7 @@ interface CreatePostInput extends Omit<Post, "image"> {
   image: FileList;
 }
 
-export default function CreatePost() {
+export default function FormPost() {
   const {
     register,
     watch,
@@ -98,8 +98,8 @@ export default function CreatePost() {
               {...register("content", {
                 required: "Content is required",
                 minLength: {
-                  value: 50,
-                  message: "Minimum 50 characters",
+                  value: 30,
+                  message: "Minimum 30 characters",
                 },
               })}
               placeholder="Content"

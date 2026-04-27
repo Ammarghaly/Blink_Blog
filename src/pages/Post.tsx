@@ -4,10 +4,11 @@ import { getPostById } from "../api/posts";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import toast from "react-hot-toast/headless";
+import { usePostStore } from "../store/usePostStore";
 
 export default function Post() {
   const { id } = useParams<{ id: string }>();
-  const [post, setPost] = useState<Post | null>(null);
+  const {post, setPost} =usePostStore()
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

@@ -11,7 +11,7 @@ import toast from "react-hot-toast";
 export default function PostCard({ post }: { post: Post }) {
   const [comment, setComment] = useState("");
   const [isExpanded, setIsExpanded] = useState(false);
-  const { toggleLikeLocal, addCommentLocal,deletePostUserLocal, deletePostLocal } = usePostStore();
+  const { toggleLikeLocal, addCommentLocal, deletePostLocal } = usePostStore();
   const { user } = useAuth();
   const { open } = useAuthModal();
   const isLiked = user ? post.likes.includes(user._id) : false;
@@ -31,7 +31,7 @@ export default function PostCard({ post }: { post: Post }) {
   };
 
   const copyLinkPost = async (id: string) => {
-    const postUrl = `${window.location.href}posts/${id}`;
+    const postUrl = `https://blink-blog-coral.vercel.app/posts/${id}`;
     try {
       await navigator.clipboard.writeText(postUrl);
       toast.success("Link copied to clipboard!");
@@ -70,7 +70,6 @@ export default function PostCard({ post }: { post: Post }) {
   const handleDelete = async (postId: string) => {
     const previousPosts = usePostStore.getState().posts; 
     deletePostLocal(postId);
-    deletePostUserLocal(postId);
     try {
       await deletePostRequest(postId);
       toast.success("Deleted successfully");

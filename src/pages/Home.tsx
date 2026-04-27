@@ -34,7 +34,7 @@ export default function Home() {
         <PostCard key={post._id} post={post} />
       ))}
       {!!user && (
-        <div className="w-14 h-14 sm:w-16 sm:h-16 md:w-18 md:h-18 rounded-full text-white flex items-center justify-center bg-black fixed bottom-10 shadow-[0_0_10px_var(--color-primary)] right-10 cursor-pointer hover:bg-gray-800 transition border border-gray-700">
+        <div className="w-14 h-14 sm:w-16 sm:h-16 md:w-18 md:h-18 rounded-full text-white flex items-center justify-center bg-black fixed bottom-10 shadow-[0_0_10px_var(--color-primary)] left-10 cursor-pointer hover:bg-gray-800 transition border border-gray-700">
           <Link
             to={"/addPost"}
             className="font-bold text-2xl sm:text-3xl md:text-4xl"
