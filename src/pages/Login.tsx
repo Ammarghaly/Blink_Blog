@@ -53,7 +53,6 @@ export default function Login() {
                 Email
               </label>
               <input
-                defaultValue={"aa@aa.com"}
                 {...register("email", {
                   required: "Email is required",
                   pattern: {
@@ -76,7 +75,6 @@ export default function Login() {
                 Password
               </label>
               <input
-                defaultValue={"123456789"}
                 type="password"
                 {...register("password", {
                   required: "Password is required",
