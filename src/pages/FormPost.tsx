@@ -166,13 +166,19 @@ export default function FormPost() {
           </button>
         </form>
       </div>
-      <div className="hidden md:flex w-100 h-100 bg-[#0a0a0a] border border-gray-800 rounded-2xl overflow-hidden items-center justify-center ml-8">
+      <div className="hidden md:flex flex-col w-[400px] ml-8 self-center">
+        <p className="text-gray-500 text-sm mb-2 text-center">Image Preview</p>
         {preview ? (
-          <img src={preview} className="w-full h-full object-cover" />
+          <img
+            src={preview}
+            className="w-full rounded-xl max-h-[300px] object-cover border border-gray-800 shadow-lg"
+          />
         ) : (
-          <div className="text-gray-500 text-center">
-            <Image />
-            <p>Preview</p>
+          <div className="w-full h-[250px] bg-[#0a0a0a] border border-gray-800 rounded-2xl flex items-center justify-center text-gray-500 shadow-md">
+            <div className="text-center">
+              <Image size={40} className="mx-auto mb-2 opacity-50" />
+              <p className="text-sm">No image selected</p>
+            </div>
           </div>
         )}
       </div>

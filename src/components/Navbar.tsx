@@ -20,8 +20,8 @@ export default function Navbar() {
             Home
           </Link>
           {isLoggedIn && (
-            <Link to="/portfolio" className="hover:text-primary">
-              Portfolio
+            <Link to="/profile" className="hover:text-primary">
+              Profile
             </Link>
           )}
         </div>
@@ -79,8 +79,8 @@ export default function Navbar() {
             Home
           </Link>
           {isLoggedIn && (
-            <Link to="/portfolio" onClick={() => setIsOpen(false)}>
-              Portfolio
+            <Link to="/profile" onClick={() => setIsOpen(false)}>
+              Profile
             </Link>
           )}
           <hr className="border-gray-700" />

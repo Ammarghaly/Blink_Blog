@@ -3,7 +3,7 @@ import UserInfo from "../components/UserInfo";
 import { useAuth } from "../hooks/useAuth";
 
 
-export default function Portfolio() {
+export default function Profile() {
   const {user}=useAuth()
   return (
     <>

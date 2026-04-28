@@ -135,8 +135,8 @@ export default function PostCard({ post }: { post: Post }) {
         )}
       </div>
       <hr className=" mx-auto h-[1.5px] border-0 bg-gradient-to-r from-transparent via-[var(--color-primary)] to-transparent" />
-      <h2 className="font-bold">{post.title}</h2>
-      <p className="text-sm text-gray-300 leading-relaxed break-words overflow-hidden">
+      <h2 className="font-bold" dir="auto">{post.title}</h2>
+      <p className="text-sm text-gray-300 leading-relaxed break-words overflow-hidden" dir="auto">
         {displayedContent}
       </p>
       {isLongText && (
@@ -200,7 +200,7 @@ export default function PostCard({ post }: { post: Post }) {
                   <span className="text-gray-400 text-xs">
                     {timeAgo(c.createdAt)}
                   </span>
-                  <p>{c.text}</p>
+                  <p dir="auto">{c.text}</p>
                 </div>
               </div>
             ))}

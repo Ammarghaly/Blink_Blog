@@ -1,7 +1,6 @@
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import Portfolio from "./pages/Portfolio";
 import { Route, Routes, Navigate } from "react-router-dom";
 import MainLayout from "./layout/MainLayout";
 import { useAuth } from "./hooks/useAuth";
@@ -13,6 +12,7 @@ import FormPost from "./pages/FormPost";
 import LoadingSpinner from "./components/LoadingSpinner";
 import { useLoading } from "./hooks/useLoading";
 import { useEffect } from "react";
+import Profile from "./pages/Profile";
 
 export default function App() {
   const { user, isLoading: isAuthLoading } = useAuth();
@@ -41,9 +41,9 @@ export default function App() {
             element={user ? <FormPost /> : <Navigate to="/" />}
           />
           <Route
-            path="/portfolio"
-            element={!user ? <Navigate to="/" /> : <Portfolio />}
-          />
+            path="/profile"
+            element={user ? <Profile /> : <Navigate to="/" />}
+          />  
         </Route>
 
         <Route
