@@ -3,7 +3,6 @@ import { useAuth } from "../hooks/useAuth";
 import { toast } from "react-hot-toast";
 import imageLogin from "../assets/Login.png";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 
 type LoginForm = {
   email: string;
@@ -23,14 +22,10 @@ export default function Login() {
   const onSubmit = async (data: LoginForm) => {
     try {
       await login(data.email, data.password);
-      toast.success("Logged in successfully");
+      toast.success("Welcome back to Blink!");
       navigate("/");
-    } catch (err: unknown) {
-      if (axios.isAxiosError(err)) {
-        const errorData = err.response?.data;
-        const errorMessage = errorData?.message || errorData?.error;
-        toast.error(errorMessage);
-      }
+    } catch  {
+         toast.error("Something went wrong. Please try again later.");
     }
   };
 
@@ -43,10 +38,6 @@ export default function Login() {
       <div className="flex-1 flex items-center justify-center p-6">
         <div className="w-full max-w-md bg-[#0a0a0a] p-10 rounded-3xl border border-gray-800 shadow-[0_0_17px_#8b5cf6]">
           <h2 className="text-2xl font-bold mb-3 text-center">Welcome Back</h2>
-          <p className="text-gray-500 mb-8">
-            Fill in your credentials to access your experience
-          </p>
-
           <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
             <div>
               <label className="block text-xs text-gray-500 uppercase mb-2 font-bold">
@@ -102,7 +93,7 @@ export default function Login() {
             </button>
 
             <p className="text-center text-gray-600 text-sm mt-8">
-              New to the vortex?
+              "Don't have an account?"
               <span
                 className="text-white ml-1.5 cursor-pointer hover:text-primary underline underline-offset-4"
                 onClick={() => navigate("/register")}

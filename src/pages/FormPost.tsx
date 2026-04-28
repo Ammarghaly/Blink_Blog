@@ -131,7 +131,7 @@ export default function FormPost() {
               })}
               rows={4}
               placeholder="Content"
-              className={`w-full p-3 rounded-lg bg-black/40 border ${
+              className={`w-full hide-scrollbar p-3 rounded-lg bg-black/40 border ${
                 errors.content ? "border-red-500" : "border-gray-700"
               }`}
             />

@@ -3,7 +3,6 @@ import { useAuth } from "../hooks/useAuth";
 import { toast } from "react-hot-toast";
 import imageRegister from "../assets/register.png";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 
 type RegisterForm = {
   email: string;
@@ -38,12 +37,8 @@ export default function Login() {
       toast.success("Account created");
 
       navigate("/login");
-    } catch (err: unknown) {
-      if (axios.isAxiosError(err)) {
-        const errorData = err.response?.data;
-        const errorMessage = errorData?.message || errorData?.error;
-        toast.error(errorMessage);
-      }
+    } catch {
+      toast.error("Something went wrong. Please try again later.");
     }
   };
 
