@@ -1,9 +1,9 @@
 import PostCard from "../components/PostCard";
 import type { Post } from "../types";
 import { getPostById } from "../api/posts";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import toast from "react-hot-toast/headless";
+import toast from "react-hot-toast";
 import { usePostStore } from "../store/usePostStore";
 import { useLoading } from "../hooks/useLoading";
 

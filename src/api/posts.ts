@@ -1,8 +1,9 @@
 import api from "./axios";
 
-export const getPosts = async () => {
-  const res = await api.get("/posts");
-  return res.data.posts;
+export const getPosts = async (page = 1, limit = 9) => {
+  const res = await api.get(`/posts?page=${page}&limit=${limit}`);
+  console.log(res.data);
+  return res.data;
 };
 
 export const toggleLikeRequest = (postId: string) => {

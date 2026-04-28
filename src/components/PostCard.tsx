@@ -177,27 +177,33 @@ export default function PostCard({ post }: { post: Post }) {
       </div>
       <div className="space-y-3 pt-3 border-t border-gray-800">
         <div className="space-y-2 max-h-[100px] hide-scrollbar overflow-y-auto pr-1">
-          {post.comments.map((c) => (
-            <div
-              key={c._id}
-              className="flex items-start gap-2 text-sm text-gray-300"
-            >
-              <img
-                src={c.user?.image}
-                className="w-7 h-7 rounded-full object-cover mt-0.5 flex-shrink-0"
-                alt={c.user?.name}
-              />
-              <div>
-                <span className="font-semibold mr-3 text-white">
-                  {c.user?.name}
-                </span>
-                <span className="text-gray-400 text-xs">
-                  {timeAgo(c.createdAt)}
-                </span>
-                <p>{c.text}</p>
+          {[...post.comments]
+            .sort(
+              (a, b) =>
+                new Date(b.createdAt).getTime() -
+                new Date(a.createdAt).getTime(),
+            )
+            .map((c) => (
+              <div
+                key={c._id}
+                className="flex items-start gap-2 text-sm text-gray-300"
+              >
+                <img
+                  src={c.user?.image}
+                  className="w-7 h-7 rounded-full object-cover mt-0.5 flex-shrink-0"
+                  alt={c.user?.name}
+                />
+                <div>
+                  <span className="font-semibold mr-3 text-white">
+                    {c.user?.name}
+                  </span>
+                  <span className="text-gray-400 text-xs">
+                    {timeAgo(c.createdAt)}
+                  </span>
+                  <p>{c.text}</p>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
         </div>
         <div className="flex gap-2">
           <input

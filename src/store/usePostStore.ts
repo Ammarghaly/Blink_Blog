@@ -5,21 +5,27 @@ type PostStore = {
   posts: Post[];
   post: Post | null;
   userPosts: Post[];
+  currentPage: number;
+  totalPages: number;
   setPost: (post: Post) => void;
   setPosts: (posts: Post[]) => void;
   setUserPosts: (posts: Post[]) => void;
+  setPagination: (page: number, pages: number) => void;
+  deletePostLocal: (postId: string) => void;
   toggleLikeLocal: (postId: string, userId: string) => void;
   addCommentLocal: (postId: string, comment: Comment) => void;
-  deletePostLocal: (postId: string) => void;
 };
 
 export const usePostStore = create<PostStore>((set) => ({
   posts: [],
   userPosts: [],
   post: null,
+  currentPage: 1,
+  totalPages: 1,
   setPost: (post) => set({ post }),
   setPosts: (posts) => set({ posts }),
   setUserPosts: (userPosts) => set({ userPosts }),
+  setPagination: (page, pages) => set({ currentPage: page, totalPages: pages }),
   toggleLikeLocal: (postId, userId) =>
     set((state) => {
       const update = (p: Post) => {
@@ -35,6 +41,7 @@ export const usePostStore = create<PostStore>((set) => ({
       return {
         posts: state.posts.map(update),
         userPosts: state.userPosts.map(update),
+        post: state.post ? update(state.post) : state.post,
       };
     }),
   addCommentLocal: (postId, comment) =>
