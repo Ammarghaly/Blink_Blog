@@ -16,7 +16,7 @@ export default function PostCard({ post }: { post: Post }) {
   const { user } = useAuth();
   const { open } = useAuthModal();
   const navigate=useNavigate()
-  const isLiked = user ? post.likes?.includes(user._id) : false;
+  const isLiked = user ? post.likes.includes(user._id) : false;
 
   const handleLike = async () => {
     if (!user) {

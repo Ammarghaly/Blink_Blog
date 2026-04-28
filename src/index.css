@@ -42,10 +42,25 @@
     display: none;
   }
 }
-.hide-scrollbar::-webkit-scrollbar {
-  display: none;
-}
 .hide-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+  scrollbar-width: thin; 
+  scrollbar-color: #a855f7 #000000;
+}
+.hide-scrollbar::-webkit-scrollbar {
+  width: 6px; 
+}
+
+.hide-scrollbar::-webkit-scrollbar-track {
+  background: #000000;
+}
+
+.hide-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #333;
+  border-radius: 20px;
+  border: 1px solid #000000;
+}
+
+.hide-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: #a855f7; 
+  box-shadow: 0 0 10px #a855f7; 
 }
