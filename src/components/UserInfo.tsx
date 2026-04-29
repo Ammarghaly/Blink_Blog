@@ -20,7 +20,7 @@ export default function UserInfo() {
       }
     };
     getData();
-  }, [user?._id, setUserPosts]);
+  }, [user?._id, setUserPosts, setIsLoading]);
 
 
   return (

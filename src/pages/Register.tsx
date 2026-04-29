@@ -22,7 +22,6 @@ export default function Login() {
     watch,
     formState: { errors, isSubmitting },
   } = useForm<RegisterForm>();
-
   const onSubmit = async (data: RegisterForm) => {
     try {
       const formData = new FormData();
@@ -37,7 +36,7 @@ export default function Login() {
       toast.success("Account created");
       navigate("/login");
     } catch {
-      toast.error("Something went wrong. Please try again later.");
+      toast.error("Invalid email or password");
     }
   };
 
@@ -57,7 +56,7 @@ export default function Login() {
             Create Account
           </h2>
           <p className="text-gray-500 mb-5 text-center text-sm">
-            Join the next evolution of digital social spaces.
+            Create an account to get started.
           </p>
 
           <form className="space-y-3 " onSubmit={handleSubmit(onSubmit)}>

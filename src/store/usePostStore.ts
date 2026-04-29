@@ -1,5 +1,5 @@
-import { create } from "zustand";
 import type { Post, Comment } from "../types/index";
+import { create } from "zustand";
 
 type PostStore = {
   posts: Post[];
