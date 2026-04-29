@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import { getPosts } from "../api/posts";
 import PostCard from "../components/PostCard";
 import { usePostStore } from "../store/usePostStore";
-import axios from "axios";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
@@ -22,19 +21,15 @@ export default function Home() {
         const data = await getPosts(currentPage);
         setPosts(data.posts);
         setPagination(data.page, data.pages);
-      } catch (err) {
-        if (axios.isAxiosError(err)) {
-          const errorData = err.response?.data;
-          const errorMessage = errorData?.message || errorData?.error;
-          toast.error(errorMessage);
-        }
+      } catch {
+        toast.error("Failed to load posts. Please try again.");
       } finally {
         setIsLoading(false);
       }
     };
 
     fetchPosts();
-  }, [currentPage]);
+  }, [currentPage, setPosts, setPagination, setIsLoading]);
 
   const handleNextPage = () => {
     if (currentPage < totalPages) {

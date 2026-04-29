@@ -28,14 +28,13 @@ export default function Login() {
       const formData = new FormData();
 
       formData.append("name", data.name);
-      formData.append("email", data.email);
+      formData.append("email", data.email.toLowerCase());
       formData.append("password", data.password);
       if (data.profilePic[0]) {
         formData.append("image", data.profilePic[0]);
       }
       await registration(formData);
       toast.success("Account created");
-
       navigate("/login");
     } catch {
       toast.error("Something went wrong. Please try again later.");
