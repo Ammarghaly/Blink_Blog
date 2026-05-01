@@ -44,6 +44,10 @@ export default function App() {
             path="/profile"
             element={user ? <Profile /> : <Navigate to="/" />}
           />  
+          <Route
+            path="/profile/:id"
+            element={<Profile />}
+          />  
         </Route>
 
         <Route

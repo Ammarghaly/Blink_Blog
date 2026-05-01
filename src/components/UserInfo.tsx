@@ -4,36 +4,42 @@ import { getPostsUserById } from "../api/posts";
 import PostCard from "./PostCard";
 import { usePostStore } from "../store/usePostStore";
 import { useLoading } from "../hooks/useLoading";
+import { useParams } from "react-router-dom";
 
 export default function UserInfo() {
   const { user } = useAuth();
   const { userPosts, setUserPosts } = usePostStore();
+  const { id } = useParams(); 
   const { setIsLoading } = useLoading();
   useEffect(() => {
     const getData = async () => {
+      const userId = id || user?._id
+      if (!userId) return
       setIsLoading(true);
       try {
-        const res = await getPostsUserById(user?._id);
+        const res = await getPostsUserById(userId);
+        
         setUserPosts(res);
       } finally {
         setIsLoading(false);
       }
     };
     getData();
-  }, [user?._id, setUserPosts, setIsLoading]);
+  }, [id, user?._id, setUserPosts, setIsLoading]);
 
+  const userInfo = id ? userPosts[0]?.author : user;
 
   return (
     <div className="relative">
       <div className="sticky top-16 z-40 flex items-center w-[95%] mt-3 mx-auto gap-5 p-5 rounded-2xl bg-[#0a0a0a]/90 backdrop-blur-md shadow-[0_0px_20px_#291f3f]">
         <img
-          src={user?.image}
+          src={userInfo?.image}
           alt="User Image"
           className="w-24 h-24 object-cover rounded-full border-2 border-primary"
         />
         <div className="text-white">
-          <h2 className="font-bold text-lg">Email: {user?.email}</h2>
-          <p className="text-stone-300">Name: {user?.name}</p>
+          <h2 className="font-bold text-lg">Email: {userInfo?.email}</h2>
+          <p className="text-stone-300">Name: {userInfo?.name}</p>
           <p className="text-stone-400 text-sm">Posts: {userPosts.length}</p>
         </div>
       </div>

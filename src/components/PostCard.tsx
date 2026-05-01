@@ -1,8 +1,12 @@
 import { useState } from "react";
 import { type Post } from "../types";
-import { Heart, MessageCircle, Share2,Pencil , Trash2 } from "lucide-react";
+import { Heart, MessageCircle, Share2, Pencil, Trash2 } from "lucide-react";
 import { usePostStore } from "../store/usePostStore";
-import { toggleLikeRequest, addCommentRequest, deletePostRequest } from "../api/posts";
+import {
+  toggleLikeRequest,
+  addCommentRequest,
+  deletePostRequest,
+} from "../api/posts";
 import { useAuth } from "../hooks/useAuth";
 import { useAuthModal } from "../hooks/useAuthModal";
 import { timeAgo } from "../utils/timeAgo";
@@ -15,7 +19,7 @@ export default function PostCard({ post }: { post: Post }) {
   const { toggleLikeLocal, addCommentLocal, deletePostLocal } = usePostStore();
   const { user } = useAuth();
   const { open } = useAuthModal();
-  const navigate=useNavigate()
+  const navigate = useNavigate();
   const isLiked = user ? post.likes.includes(user._id) : false;
 
   const handleLike = async () => {
@@ -47,42 +51,46 @@ export default function PostCard({ post }: { post: Post }) {
     ? post.content
     : words.slice(0, 20).join(" ") + (isLongText ? "..." : "");
 
- const handleAddComment = async () => {
-   if (!user) {
-     open();
-     return;
-   }
-   if (!comment.trim()) return;
-   const tempComment = {
-     _id: Date.now().toString(),
-     text: comment,
-     user,
-     createdAt: new Date().toISOString(),
-   };
-   addCommentLocal(post._id, tempComment);
-   setComment("");
-   try {
-     await addCommentRequest(post._id, comment);
-     toast.success("Comment added ");
-   } catch {
-     toast.error("Failed to add comment");
-   }
- };
+  const handleProfile = async (id: string) => {
+    navigate(`/profile/${id}`);
+  };
+
+  const handleAddComment = async () => {
+    if (!user) {
+      open();
+      return;
+    }
+    if (!comment.trim()) return;
+    const tempComment = {
+      _id: Date.now().toString(),
+      text: comment,
+      user,
+      createdAt: new Date().toISOString(),
+    };
+    addCommentLocal(post._id, tempComment);
+    setComment("");
+    try {
+      await addCommentRequest(post._id, comment);
+      toast.success("Comment added ");
+    } catch {
+      toast.error("Failed to add comment");
+    }
+  };
 
   const handleDelete = async (postId: string) => {
-    const previousPosts = usePostStore.getState().posts; 
+    const previousPosts = usePostStore.getState().posts;
     deletePostLocal(postId);
     try {
       await deletePostRequest(postId);
       toast.success("Deleted successfully");
-    } catch  {
+    } catch {
       usePostStore.setState({ posts: previousPosts });
       toast.error("Delete failed, restored");
     }
   };
-  
+
   const handleEdit = (id: string) => {
-   navigate(`/edit/${id}`)
+    navigate(`/edit/${id}`);
   };
 
   return (
@@ -104,7 +112,10 @@ export default function PostCard({ post }: { post: Post }) {
       "
     >
       <div className="flex items-center  justify-between">
-        <div className="flex gap-3">
+        <div
+          className="flex gap-3"
+          onClick={() => handleProfile(post.author?._id)}
+        >
           <img
             src={post.author?.image}
             className="w-10 h-10 rounded-full object-cover"
@@ -135,8 +146,13 @@ export default function PostCard({ post }: { post: Post }) {
         )}
       </div>
       <hr className=" mx-auto h-[1.5px] border-0 bg-gradient-to-r from-transparent via-[var(--color-primary)] to-transparent" />
-      <h2 className="font-bold" dir="auto">{post.title}</h2>
-      <p className="text-sm text-gray-300 leading-relaxed break-words overflow-hidden" dir="auto">
+      <h2 className="font-bold" dir="auto">
+        {post.title}
+      </h2>
+      <p
+        className="text-sm text-gray-300 leading-relaxed break-words overflow-hidden"
+        dir="auto"
+      >
         {displayedContent}
       </p>
       {isLongText && (
