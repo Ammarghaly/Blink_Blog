@@ -97,12 +97,12 @@ export default function PostCard({ post }: { post: Post }) {
     <div
       className="
         bg-[#0a0a0a]
-        w-full
+        w-[95%]
+        mx-auto
         sm:w-[90%]
         md:w-[70%]
         lg:w-[50%]
         xl:w-[40%]
-        mx-auto
         my-3
         border border-gray-800
         rounded-2xl
