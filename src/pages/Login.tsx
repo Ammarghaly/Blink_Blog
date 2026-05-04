@@ -24,8 +24,9 @@ export default function Login() {
       await login(data.email, data.password);
       toast.success("Welcome back to Blink!");
       navigate("/");
-    } catch  {
-         toast.error("Something went wrong. Please try again later.");
+    } catch (error: any) {
+      const errorMessage = error.response?.data?.message || "Something went wrong. Please try again later.";
+      toast.error(errorMessage);
     }
   };
 

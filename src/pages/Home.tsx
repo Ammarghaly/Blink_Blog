@@ -21,8 +21,9 @@ export default function Home() {
         const data = await getPosts(currentPage);
         setPosts(data.posts);
         setPagination(data.page, data.pages);
-      } catch {
-        toast.error("Failed to load posts. Please try again.");
+      } catch (error: any) {
+        const errorMessage = error.response?.data?.message || "Failed to load posts. Please try again.";
+        toast.error(errorMessage);
       } finally {
         setIsLoading(false);
       }

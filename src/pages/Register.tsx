@@ -35,8 +35,9 @@ export default function Login() {
       await registration(formData);
       toast.success("Account created");
       navigate("/login");
-    } catch {
-      toast.error("Invalid email or password");
+    } catch (error: any) {
+      const errorMessage = error.response?.data?.message || "Something went wrong";
+      toast.error(errorMessage);
     }
   };
 

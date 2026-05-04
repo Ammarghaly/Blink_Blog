@@ -111,9 +111,9 @@ export default function PostCard({ post }: { post: Post }) {
         space-y-4
       "
     >
-      <div className="flex items-center cursor-pointer  justify-between">
+      <div className="flex items-center justify-between">
         <div
-          className="flex gap-3"
+          className="flex gap-3 cursor-pointer "
           onClick={() => handleProfile(post.author?._id)}
         >
           <img

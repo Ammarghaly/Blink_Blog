@@ -19,8 +19,9 @@ export default function Post() {
         try {
           const res = await getPostById(id);
           setPost(res);
-        } catch {
-          toast.error("Failed to fetch post");
+        } catch (error: any) {
+          const errorMessage = error.response?.data?.message || "Failed to fetch post";
+          toast.error(errorMessage);
         } finally {
           setIsLoading(false);
         }

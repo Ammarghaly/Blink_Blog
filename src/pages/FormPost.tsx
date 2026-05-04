@@ -90,8 +90,9 @@ export default function FormPost() {
       reset();
       setPreview(null);
       navigate("/");
-    } catch {
-      toast.error("Something went wrong");
+    } catch (error: any) {
+      const errorMessage = error.response?.data?.message || "Something went wrong";
+      toast.error(errorMessage);
     }
   };
 
