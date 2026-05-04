@@ -34,7 +34,7 @@ export default function Login() {
       }
       await registration(formData);
       toast.success("Account created");
-      navigate("/login");
+      navigate("/verify-otp");
     } catch (error: any) {
       const errorMessage = error.response?.data?.message || "Something went wrong";
       toast.error(errorMessage);
