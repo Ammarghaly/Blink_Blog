@@ -31,8 +31,12 @@ export default function Login() {
 
   return (
     <div className="flex min-h-screen w-full bg-[#050505] text-white">
-      <div className="image">
-        <img src={imageLogin} alt="Login Visual" />
+      <div className="image hidden md:block w-[45%] h-full">
+        <img
+          src={imageLogin}
+          alt="Login Visual"
+          className="h-full w-full object-cover"
+        />
       </div>
 
       <div className="flex-1 flex items-center justify-center p-6">
