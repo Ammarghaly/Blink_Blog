@@ -12,3 +12,11 @@ export const registerRequest = async (formData: FormData) => {
   const res = await api.post("/auth/register", formData);
   return res.data;
 };
+
+export const verifyOtpRequest = async (email: string, otp: string) => {
+  const res = await api.post("/auth/verify-otp", {
+    email,
+    otp,
+  });
+  return res.data;
+};

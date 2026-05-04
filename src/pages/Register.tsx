@@ -69,6 +69,7 @@ export default function Login() {
                 {...register("name", {
                   required: "Name is required",
                   minLength: { value: 3, message: "Min 3 characters" },
+                  maxLength: { value: 20, message: "Max 20 characters" },
                   pattern: { value: /^[A-Za-z\s]+$/i, message: "Invalid Name" },
                 })}
                 className="w-full bg-[#121212] border border-gray-700 p-2 rounded-xl focus:border-purple-500 outline-none transition-all text-sm"

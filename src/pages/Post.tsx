@@ -13,9 +13,9 @@ export default function Post() {
   const { setIsLoading } = useLoading();
 
   useEffect(() => {
+    setIsLoading(true);
     const fetchPost = async () => {
       if (id) {
-        setIsLoading(true);
         try {
           const res = await getPostById(id);
           setPost(res);
@@ -30,11 +30,10 @@ export default function Post() {
     fetchPost();
   }, [id, setPost, setIsLoading]);
 
-  if (!post) return <p className="mx-auto w-fit text-red-500 text-2xl pt-14">Post not found</p>;
-
+  
   return (
-    <div>
-      <PostCard post={post} />
-    </div>
+    <>
+      {post ? <PostCard post={post} /> : <p className="mx-auto w-fit text-red-500 text-2xl pt-14">Post not found</p>}
+    </>
   );
 }

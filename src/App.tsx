@@ -9,6 +9,7 @@ import AuthModal from "./components/AuthModal";
 import Post from "./pages/Post";
 import PageNotFound from "./pages/PageNotFound";
 import FormPost from "./pages/FormPost";
+import VerifyOtp from "./pages/VerifyOtp";
 import LoadingSpinner from "./components/LoadingSpinner";
 import { useLoading } from "./hooks/useLoading";
 import { useEffect } from "react";
@@ -43,13 +44,10 @@ export default function App() {
           <Route
             path="/profile"
             element={user ? <Profile /> : <Navigate to="/" />}
-          />  
-          <Route
-            path="/profile/:id"
-            element={<Profile />}
-          />  
+          />
+          <Route path="/profile/:id" element={<Profile />} />
         </Route>
-
+        <Route path="/verify-otp" element={<VerifyOtp />} />
         <Route
           path="/login"
           element={!user ? <Login /> : <Navigate to="/" />}
