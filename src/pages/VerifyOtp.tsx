@@ -13,7 +13,7 @@ export default function VerifyOtp() {
 
   const onSubmit = async (data: FormData) => {
     try {
-      const email = localStorage.getItem("pendingEmail");
+      const email = localStorage.getItem("pendingEmail") || "";
       await verifyOtpRequest(email, data.otp);
       toast.success("Account verified successfully");
       navigate("/login");
