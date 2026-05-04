@@ -12,7 +12,7 @@ type RegisterForm = {
   profilePic: FileList;
 };
 
-export default function Login() {
+export default function Register() {
   const { registration } = useAuth();
   const navigate = useNavigate();
 
@@ -33,6 +33,7 @@ export default function Login() {
         formData.append("image", data.profilePic[0]);
       }
       await registration(formData);
+      localStorage.setItem("pendingEmail", data.email.toLowerCase());
       toast.success("Account created");
       navigate("/verify-otp");
     } catch (error: any) {
