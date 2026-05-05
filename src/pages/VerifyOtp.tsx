@@ -13,7 +13,11 @@ export default function VerifyOtp() {
 
   const onSubmit = async (data: FormData) => {
     try {
-      const email = localStorage.getItem("pendingEmail") || "";
+      const email = localStorage.getItem("pendingEmail");
+      if (!email) {
+        toast.error("Email not found. Please register again.");
+        return;
+      }
       await verifyOtpRequest(email, data.otp);
       toast.success("Account verified successfully");
       navigate("/login");
